@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 
+import 'product_info.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -16,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page2'),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -35,11 +37,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
       _counter++;
     });
   }
@@ -79,16 +76,100 @@ class _MyHomePageState extends State<MyHomePage> {
     final wordPair = WordPair.random();
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
+        // leading: IconButton(
+        //   icon: Icon(Icons.menu),
+        //   tooltip: 'menu',
+        //   onPressed: null,
+        // ),
         title: Text(widget.title),
+        actions: <Widget>[
+          IconButton(onPressed: null, icon: Icon(Icons.search), tooltip: 'Search')
+        ],
       ),
+      drawer: Drawer(
+        //슬라이드 메뉴
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget> [
+            UserAccountsDrawerHeader(
+              currentAccountPicture: CircleAvatar(
+                backgroundImage: AssetImage('images/bottle.jpg'),
+              ),
+              accountName: Text('이정우'),
+              accountEmail: Text('dlwjddn22@gmail.com'),
+              onDetailsPressed: (){},
+              decoration: BoxDecoration(
+                //color: Colors.amber[600],
+                color: Theme.of(context).primaryColor,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
+                )
+              ),
+              otherAccountsPictures: [
+                CircleAvatar(
+                  backgroundImage: AssetImage('images/bottle.jpg'),
+                  backgroundColor: Colors.white,
+                ),
+                CircleAvatar(
+                  backgroundImage: AssetImage('images/bottle.jpg'),
+                  backgroundColor: Colors.white,
+                ),
+              ],
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.home,
+                color: Colors.grey[850]
+                ),
+              title: Text('Home'),
+              onTap: (){
+                print('Home click');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProductInfo()),
+                );
+              },
+              trailing: Icon(Icons.add),
+            ),
+            ListTile(
+              leading: Icon(
+                  Icons.settings,
+                  color: Colors.grey[850]
+              ),
+              title: Text('Setting'),
+              onTap: (){
+                print('Setting click');
+              },
+              trailing: Icon(Icons.add),
+            ),
+            ListTile(
+              leading: Icon(
+                  Icons.question_answer,
+                  color: Colors.grey[850]
+              ),
+              title: Text('Q&A'),
+              onTap: (){
+                print('Q&A click');
+              },
+              trailing: Icon(Icons.add),
+            ),
+          ],
+        ),
+      ),
+      //body: _buildSuggestions(),
       body: _buildSuggestions(),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ProductInfo()),
+          );
+        },
+        tooltip: '상품소개로 이동',
+        child: const Icon(Icons.near_me),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
+
